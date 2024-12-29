@@ -11,7 +11,7 @@ local sprintSpeed = 28
 
 -- Animation setup
 local sprintAnimation = Instance.new("Animation")
-sprintAnimation.AnimationId = "rbxassetid://71267686407400"  -- Replace with your Animation ID
+sprintAnimation.AnimationId = "rbxassetid://01234567891234"  -- Replace with your Animation ID
 local sprintAnimTrack = animator:LoadAnimation(sprintAnimation)
 
 local UserInputService = game:GetService("UserInputService")
