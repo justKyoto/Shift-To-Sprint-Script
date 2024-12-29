@@ -1,0 +1,55 @@
+-- Only R6 works.
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local animator = humanoid:FindFirstChildOfClass("Animator") or Instance.new("Animator", humanoid)
+
+-- Sprint speed variables
+local walkSpeed = 16
+local sprintSpeed = 28
+
+-- Animation setup
+local sprintAnimation = Instance.new("Animation")
+sprintAnimation.AnimationId = "rbxassetid://71267686407400"  -- Replace with your Animation ID
+local sprintAnimTrack = animator:LoadAnimation(sprintAnimation)
+
+local UserInputService = game:GetService("UserInputService")
+
+-- Function to handle input
+local function onInputBegan(input, gameProcessedEvent)
+	if gameProcessedEvent then
+		return
+	end
+
+	if input.UserInputType == Enum.UserInputType.Keyboard then
+		if input.KeyCode == Enum.KeyCode.LeftShift then
+			humanoid.WalkSpeed = sprintSpeed
+			if not sprintAnimTrack.IsPlaying then
+				sprintAnimTrack:Play()
+			end
+		end
+	end
+end
+
+local function onInputEnded(input, gameProcessedEvent)
+	if gameProcessedEvent then
+		return
+	end
+
+	if input.UserInputType == Enum.UserInputType.Keyboard then
+		if input.KeyCode == Enum.KeyCode.LeftShift then
+			humanoid.WalkSpeed = walkSpeed
+			if sprintAnimTrack.IsPlaying then
+				sprintAnimTrack:Stop()
+			end
+		end
+	end
+end
+
+-- Connect input events
+UserInputService.InputBegan:Connect(onInputBegan)
+UserInputService.InputEnded:Connect(onInputEnded)
+
+-- Set initial walk speed
+humanoid.WalkSpeed = walkSpeed
